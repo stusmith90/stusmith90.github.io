@@ -76,10 +76,10 @@ export function Hero({ prefersReducedMotion }: HeroProps) {
         }}
       >
         <p className="hero-lede">
-          {yearsWordCapitalised} years building software where the failure modes
-          are real — regulated healthcare, high-traffic commerce, agency
-          delivery. I work across all three layers, because the seams between
-          them are where things actually break.
+          {yearsWordCapitalised} years building software where getting it wrong
+          has real consequences — regulated healthcare, high-traffic commerce,
+          agency delivery. I work across all three layers, because the seams
+          between them are where things break.
         </p>
 
         <div className="hero-actions">

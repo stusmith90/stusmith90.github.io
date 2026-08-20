@@ -15,7 +15,7 @@ export function Experience() {
         </h2>
         <p className="section-lede">
           Organised by layer rather than by employer, because that is how the
-          work actually divides. Names and dates are on the CV.
+          work divides. Names and dates are on the CV.
         </p>
       </Reveal>
 

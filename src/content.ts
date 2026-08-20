@@ -81,10 +81,10 @@ export const heroAnchors: HeroAnchor[] = [
   {
     layer: "interface",
     word: "interface",
-    note: "the part people actually touch",
+    note: "the part people touch",
   },
   { layer: "service", word: "service", note: "the part that decides" },
-  { layer: "shipping", word: "shipping", note: "the part that gets it out" },
+  { layer: "shipping", word: "shipping", note: "the part that ships it" },
 ];
 
 export const sectionLinks: SectionLink[] = [
@@ -110,38 +110,39 @@ export const experienceLayers: ExperienceLayer[] = [
   {
     index: "01",
     layer: "interface",
-    kicker: "What people touch",
+    kicker: "Interfaces under real use",
     detail:
-      "React and TypeScript front ends, from clinical forms that have to stay legible under pressure, to checkout flows on a high-volume storefront, to installations used by strangers in public with no instructions and no second attempt. Component architecture, interaction detail, and the responsiveness and accessibility work that stops an interface feeling flimsy under real use.",
-    stack: ["React", "TypeScript", "JavaScript", "CSS"],
+      "React and TypeScript front ends: clinical forms that stay legible under pressure, checkout flows on a high-volume storefront, and public installations where nobody gets a tutorial first, plus some React Native on the mobile side. Component architecture, interaction detail, and the responsiveness and accessibility work that stops an interface feeling flimsy under real use.",
+    stack: ["React", "TypeScript", "React Native", "JavaScript", "CSS"],
   },
   {
     index: "02",
     layer: "service",
-    kicker: "What decides",
+    kicker: "Services and data",
     detail:
-      "Node and PHP services, REST API design, and data models that encode the rules of a domain rather than only validating fields. Search behaviour under load, integrations that fail in awkward ways, and custom modules extending large content platforms.",
+      "Node and PHP services, REST API design, and data models that encode a domain's rules rather than only validating fields. Search behaviour under load, third-party integrations that fail in awkward ways, and custom modules extending large content platforms.",
     stack: ["Node", "PHP", "Symfony", "PostgreSQL", "REST APIs"],
   },
   {
     index: "03",
     layer: "shipping",
-    kicker: "What gets it out",
+    kicker: "Infrastructure and delivery",
     detail:
-      "Cloud infrastructure, containers and pipelines, including release paths safe enough for a live clinical system and ones built around fixed launch dates that would not move. Environment configuration, web servers, search infrastructure, and the unglamorous work that makes delivery predictable.",
+      "Cloud infrastructure, containers and CI/CD pipelines — including release paths safe enough for a live clinical system, and pipelines built around launch dates that could not move. Environment configuration, web servers, search infrastructure, and the unglamorous work that makes delivery predictable.",
     stack: ["AWS", "Docker", "CI/CD", "Nginx", "Linux"],
   },
 ];
 
 export const aboutParagraphs = [
-  `I have spent ${yearsWord} years building software that has to work — most recently in regulated healthcare, before that in high-traffic commerce and agency delivery. The common thread is that the failure modes were real. A broken statutory form is a legal problem. A slow checkout is lost revenue by the afternoon.`,
+  `I have spent ${yearsWord} years building software that has to work — most recently in regulated healthcare, before that in high-traffic commerce and agency delivery. The common thread is that mistakes carried a cost. A clinical form filled in wrong is a legal problem. A slow checkout is lost revenue by the afternoon.`,
   "That changes what you optimise for. I care less about which framework won this year and more about whether the whole system makes sense: whether the data model matches the domain, whether the release path is safe enough to use on a Friday, whether the next engineer can read it.",
-  "I work across the full stack because the seams are where things actually break. A weak API leaks into the interface. A shaky deploy shows up as delivery speed. Those joins are the part I find genuinely interesting.",
-  "Alongside the building, a fair amount of what I do is code review, mentoring and architectural input — leaving better defaults behind than the ones I found.",
+  "A weak API leaks into the interface. A shaky deploy shows up as delivery speed. The joins are where the interesting problems tend to be.",
+  "Alongside the building, a fair amount of what I do is code review, mentoring and architectural input: the parts of the job that outlast whatever I personally wrote.",
 ];
 
 export const stackRibbon = [
   "react",
+  "react native",
   "typescript",
   "node",
   "php",
