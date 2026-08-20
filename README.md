@@ -1,6 +1,7 @@
 # stusmith90.github.io
 
-A standalone React portfolio for Stuart Ingersoll-Smith. It is intentionally independent from the Aspire monorepo and is designed to be pushed to its own GitHub Pages repository named `stusmith90.github.io`.
+A standalone React portfolio for Stuart Ingersoll-Smith, deployed to GitHub
+Pages from this repository.
 
 ## Local development
 
@@ -13,15 +14,29 @@ A standalone React portfolio for Stuart Ingersoll-Smith. It is intentionally ind
 - `pnpm build`
 - `pnpm preview`
 
-## Deploy to GitHub Pages
+## Deploy
 
-1. Create a GitHub repository named `stusmith90.github.io`.
-2. Push this directory into that repository.
-3. In GitHub repository settings, enable GitHub Pages and set the source to GitHub Actions.
-4. Push to `main` to trigger the workflow in `.github/workflows/deploy.yml`.
+Pushing to `main` triggers `.github/workflows/deploy.yml`, which builds the site
+and publishes it to GitHub Pages.
 
 ## Content boundaries
 
-- Public role label: Software Engineer
-- No email address, phone number, exact dates, or employer-by-employer job-title list
-- Portfolio copy is derived from CV facts but intentionally rewritten into a more personal, capability-led narrative
+These are deliberate constraints, not omissions. Read them before adding copy.
+
+- **No employment dates anywhere.** Roles are not tied to years or to a
+  duration, so the work cannot be lined up against a public work history.
+- **No employer or client names anywhere.** Work is described by the kind of
+  company it was, and by the layers of the stack that were owned. The intent is
+  that a former colleague cannot identify the company from the description, so
+  keep new detail generic enough to hold that line.
+- **The site is excluded from search engines** via `<meta name="robots">` and
+  `public/robots.txt`. It is meant to be reached from a link that was shared
+  deliberately, not from a search result. Removing either of those undoes the
+  privacy position above.
+- **Public role label is "Software engineer".** Deliberately plainer than the
+  seniority on the CV. Per-role titles inside the work section stay factual.
+- **No phone number.** The email address is published as the single contact
+  route.
+- Outcome lines carry no invented metrics. Where a real figure is not known, the
+  line states a genuine non-numeric contribution instead; `TODO(outcome)`
+  comments in `src/content.ts` mark the entries still waiting for a number.
