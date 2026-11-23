@@ -223,7 +223,7 @@ export const caseStudies: CaseStudy[] = [
     hardPart:
       "Each organisation sets its own policy, some details are sometimes unknown, and a failed lookup must never stop someone being paid.",
     approach:
-      "Designed the rules that decide who pays, stored that decision on each claim so pricing and references follow from it, added a fallback for lookups that fail, and built an export in the finance team's own format.",
+      "Built the routing that decides who pays, from rules agreed with product, stored that decision on each claim so pricing and references follow from it, added a fallback for lookups that fail, and built an export in the finance team's own format.",
     outcome:
       "Claims are billed to the right organisation automatically, and each organisation's policy is managed from an admin screen rather than by hand.",
   },
@@ -237,7 +237,7 @@ export const caseStudies: CaseStudy[] = [
     hardPart:
       "Access flows through networks of organisations and has to disappear the moment the relationship that granted it ends.",
     approach:
-      "Designed the access model, agreed each decision with the team in writing, and enforced it on the server with a test for each rule. Administrators are warned before removing someone who is still responsible for a record.",
+      "Designed and built the organisation and membership layer of the access model, agreed each decision with the team in writing, and enforced it on the server with a test for each rule. Administrators are warned before removing someone who is still responsible for a record.",
     outcome:
       "Every access rule traces back to a written decision the whole team agreed.",
   },
@@ -250,7 +250,7 @@ export const caseStudies: CaseStudy[] = [
     hardPart:
       "Supporting every client's differences without copying the product for each one, so a change made once reaches everyone.",
     approach:
-      "One of the first engineers: designed the original data model and built the core workflow. Later replaced the separate per-client copies of a legal assessment with one shared version, with tests that fail if any client's form loses a section.",
+      "One of the first engineers: created the first incident schema and built the hand-over and end-of-incident steps, then led a later release and built a third client's workflow. I proposed and led replacing the separate per-client copies of a legal assessment with one shared version, with tests that fail if any client's form loses a section.",
     outcome:
       "In use by three clients, including one client's national rollout.",
   },
@@ -263,8 +263,22 @@ export const caseStudies: CaseStudy[] = [
     hardPart:
       "Getting agent-written changes to follow the codebase's own conventions, without slowing the team down.",
     approach:
-      "Wrote rules that teach agents the codebase's conventions, and kept every agent change behind the same review and tests as anyone else's.",
+      "Work with coding agents daily under the codebase's written conventions and decision records, and keep every agent change behind the same review and tests as anyone else's.",
     outcome: "Agents used on production work, held to the same standard.",
+  },
+  {
+    layer: "service",
+    title: "Two people, one record, same moment",
+    context:
+      "Removing someone from an organisation while they are named on a child's case.",
+    problem:
+      "A person's role must not be removed while they still hold a part on a child's case that only that role allows, but an administrator must still be able to remove someone who has to go.",
+    hardPart:
+      "The removal checks the person's cases and then writes. If someone names them on a case in between, the check passes and the child is left with a responsible person who can no longer act. Single-user tests never show it.",
+    approach:
+      "Stopped the removal and listed each child affected, with a deliberate override that records every case left behind. Changes to one person's memberships take a database lock inside their transaction, so a second change waits for the first, and naming someone on a case repeats its check under that lock. A test proves the second change waits.",
+    outcome:
+      "The rule holds when two people act at once, not only in single-user tests.",
   },
 ];
 
