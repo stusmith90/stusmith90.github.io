@@ -35,14 +35,10 @@ export function Contact() {
     <section className="section section-ink section-contact" id="contact">
       <Reveal as="div" className="contact-inner">
         <p className="eyebrow">Contact</p>
-        <h2>
-          If any of this lines up with what you are building, I would like to
-          hear about it.
-        </h2>
+        <h2>Hiring for a senior full-stack role? Email me for the CV.</h2>
         <p className="section-lede">
-          Happy to talk about work across the stack, regulated or
-          high-consequence products, or anything sitting awkwardly between the
-          front end and the infrastructure.
+          Especially in healthcare and other products where the details have
+          consequences, and in teams that care how software is built.
         </p>
 
         <div className="contact-email">

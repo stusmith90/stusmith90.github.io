@@ -49,11 +49,11 @@ function App() {
           </div>
         </div>
 
-        <TraceRequest prefersReducedMotion={prefersReducedMotion} />
         <Work />
+        <TraceRequest prefersReducedMotion={prefersReducedMotion} />
         <Experience />
         <Timeline />
-        <About prefersReducedMotion={prefersReducedMotion} />
+        <About />
         <Contact />
       </main>
 

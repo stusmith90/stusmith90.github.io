@@ -25,7 +25,7 @@ export type SectionLink = {
  * from this single constant, so the prose never needs editing and the figures
  * can never disagree with each other. Move this date to change the count.
  */
-const careerStart = { year: 2017, month: 8 };
+const careerStart = { year: 2016, month: 2 };
 
 const numberWords = [
   "zero",
@@ -85,86 +85,76 @@ export const heroAnchors: HeroAnchor[] = [
   {
     layer: "interface",
     word: "interface",
-    note: "the part people touch",
+    note: "screens and forms people rely on",
   },
-  { layer: "service", word: "service", note: "the part that decides" },
-  { layer: "shipping", word: "shipping", note: "the part that ships it" },
+  { layer: "service", word: "service", note: "APIs, data and the rules" },
+  { layer: "shipping", word: "shipping", note: "tests, CI and releases" },
 ];
 
+/** Page order; nav labels match each section's eyebrow. */
 export const sectionLinks: SectionLink[] = [
-  { id: "trace", label: "Trace", layer: "interface" },
   { id: "work", label: "Work", layer: "interface" },
-  { id: "layers", label: "Layers", layer: "service" },
-  { id: "log", label: "Log", layer: "service" },
+  { id: "trace", label: "Trace", layer: "interface" },
+  { id: "layers", label: "Experience", layer: "service" },
+  { id: "log", label: "Career", layer: "service" },
   { id: "about", label: "About", layer: "shipping" },
   { id: "contact", label: "Contact", layer: "shipping" },
 ];
 
 /**
- * Experience is organised by layer rather than by employer: it is the axis the
- * rest of the site argues for, and it keeps names and dates off the page. See
- * the content boundaries section of the README before adding anything that
- * would identify a company.
+ * Experience is organised by layer rather than by employer. Sectors may be named;
+ * employers, clients and dates may not — see the content boundaries in the README.
  */
-export const companyTypes = [
-  "Healthcare technology",
-  "Digital creative agency",
-  "Advertising and brand agency",
-  "Online travel retailer",
-];
-
 export const experienceLayers: ExperienceLayer[] = [
   {
     index: "01",
     layer: "interface",
-    kicker: "Interfaces under real use",
+    kicker: "Interfaces people depend on",
     detail:
-      "React and TypeScript front ends: clinical forms that stay legible under pressure, checkout flows on a high-volume storefront, and public installations where nobody gets a tutorial first, plus some React Native on the mobile side. Component architecture, interaction detail, and the responsiveness and accessibility work that stops an interface feeling flimsy under real use.",
-    stack: ["React", "TypeScript", "React Native", "JavaScript", "CSS"],
+      "React and TypeScript front ends: long legal forms used by clinicians and police officers, booking flows on a high-traffic ticketing site and touchscreen apps, plus React Native on mobile. Accessibility is tested with the keyboard, a screen reader and automated checks rather than assumed.",
+    stack: ["React", "TypeScript", "React Native", "Vite", "Storybook"],
   },
   {
     index: "02",
     layer: "service",
-    kicker: "Services and data",
+    kicker: "Services, data and rules",
     detail:
-      "Node and PHP services, REST API design, and data models that encode a domain's rules rather than only validating fields. Search behaviour under load, third-party integrations that fail in awkward ways, and custom modules extending large content platforms.",
-    stack: ["Node", "PHP", "Symfony", "PostgreSQL", "REST APIs"],
+      "Node and PHP services, REST APIs, and PostgreSQL schema design and migrations. Server-side authorisation, audit logs of who changed what and when, and data models that hold a domain's legal and financial rules rather than only validating fields.",
+    stack: ["Node.js", "PostgreSQL", "Express", "REST APIs", "PHP"],
   },
   {
     index: "03",
     layer: "shipping",
-    kicker: "Infrastructure and delivery",
+    kicker: "Testing and delivery",
     detail:
-      "Cloud infrastructure, containers and CI/CD pipelines — including release paths safe enough for a live clinical system, and pipelines built around launch dates that could not move. Environment configuration, web servers, search infrastructure, and the unglamorous work that makes delivery predictable.",
-    stack: ["AWS", "Docker", "CI/CD", "Nginx", "Linux"],
+      "End-to-end tests that act as more than one organisation, visual regression testing, CI on GitHub Actions and releases to AWS. My first role was fixing live problems on a busy booking site, and I still build with the person on call in mind.",
+    stack: ["Playwright", "Vitest", "GitHub Actions", "AWS", "Docker"],
   },
 ];
 
 export const aboutParagraphs = [
-  `I have spent ${yearsWord} years building software that has to work — most recently in regulated healthcare, before that in high-traffic commerce and agency delivery. The common thread is that mistakes carried a cost. A clinical form filled in wrong is a legal problem. A slow checkout is lost revenue by the afternoon.`,
-  "That changes what you optimise for. I care less about which framework won this year and more about whether the whole system makes sense: whether the data model matches the domain, whether the release path is safe enough to use on a Friday, whether the next engineer can read it.",
-  "A weak API leaks into the interface. A shaky deploy shows up as delivery speed. The joins are where the interesting problems tend to be.",
-  "Alongside the building, a fair amount of what I do is code review, mentoring and architectural input: the parts of the job that outlast whatever I personally wrote.",
+  "Most recently I have built Mental Health Act software for NHS trusts and police forces, and access control for a children's safeguarding product. Before that, agency work for well-known brands and a high-traffic ticketing site.",
+  "In that kind of work a mistake is a legal or safeguarding problem, not just a bug. So I care whether the data model matches the domain, whether each rule lives in one place with a test on it, and whether a release is safe to ship on any day of the week.",
+  "I use AI coding tools every day, with the same review and tests as any other change.",
 ];
 
 export const stackRibbon = [
-  "react",
-  "react native",
   "typescript",
-  "node",
-  "php",
+  "react",
+  "node.js",
+  "postgresql",
   "aws",
+  "react native",
+  "playwright",
   "docker",
-  "postgres",
-  "apis",
-  "ci/cd",
-  "linux",
+  "rest apis",
+  "github actions",
+  "php",
 ];
 
 /**
  * One user action traced through the three layers. Each story describes how
- * that kind of request is handled in systems built so far, kept generic enough
- * that the product and the company cannot be identified.
+ * that kind of request is handled in systems built so far.
  */
 export type TraceAction = {
   id: string;
@@ -175,38 +165,38 @@ export type TraceAction = {
 export const traceActions: TraceAction[] = [
   {
     id: "submit-form",
-    label: "Submit a statutory form",
+    label: "Sign a Mental Health Act form",
     stories: {
       interface:
         "A long form validated field by field against a schema the server shares, so the browser and the API can never disagree about what complete means.",
       service:
-        "The submission is checked against the rules the law sets — who may sign, in what order, within which time limit — and every change lands in an audit trail.",
+        "The server checks the rules the law sets — who may sign, in what order, within which time limit — and records every change in an audit log.",
       shipping:
-        "The output is a PDF that has to match the official wording, so its layout is checked against approved snapshots before any release goes out.",
+        "The form becomes a PDF that must match the official wording, so its layout is compared against approved copies before any release.",
     },
   },
   {
     id: "hand-over",
-    label: "Hand a case to another organisation",
+    label: "Hand a patient over to NHS staff",
     stories: {
       interface:
-        "Accept and transfer steps that spell out the consequence before anyone commits: who will be responsible, and who will be able to see the record afterwards.",
+        "The hand-over screen spells out the consequence before anyone confirms it: who becomes responsible, and who can see the record afterwards.",
       service:
-        "Responsibility and visibility move together, and the hand-over is written to the audit log, because in a regulated setting the question is always who knew what, and when.",
+        "Responsibility and visibility move together in one step, and the hand-over is written to the audit log, because the question afterwards is always who knew what, and when.",
       shipping:
-        "End-to-end tests walk the hand-over as both organisations, so a change to one side cannot quietly break the other.",
+        "End-to-end tests walk the hand-over as both organisations, so a change on one side cannot quietly break the other.",
     },
   },
   {
     id: "grant-access",
-    label: "Grant someone access",
+    label: "Give someone access to a child's record",
     stories: {
       interface:
         "What a person can do is shown as a clear state rather than a missing button, so nobody has to guess why an action is unavailable.",
       service:
-        "Every check runs on the server against one access-control model, written down as decision records before it was written as code.",
+        "Every check runs on the server against one access model. Access ends when the duty of care that granted it ends.",
       shipping:
-        "Each rule is pinned by a test that names it, so widening access is always a reviewed, deliberate change rather than a side effect.",
+        "Each access rule has a test named after it, so widening access is always a reviewed decision rather than a side effect.",
     },
   },
 ];
@@ -215,54 +205,59 @@ export type CaseStudy = {
   layer: StackLayer;
   title: string;
   problem: string;
+  hardPart: string;
   approach: string;
   outcome: string;
 };
 
-/**
- * Anonymised on purpose: see the content boundaries in the README. Outcomes
- * state real contributions, never invented metrics.
- */
+/** Outcomes state real contributions, never invented metrics. */
 export const caseStudies: CaseStudy[] = [
   {
-    layer: "interface",
-    title: "Forms that hold up legally",
+    layer: "service",
+    title: "A police app, from its first months",
     problem:
-      "Paper statutory forms, where a missing signature or a wrong date makes the whole document invalid.",
+      "Police officers needed to record mental health detentions and hand people over to NHS staff, inside a platform built for NHS trusts.",
+    hardPart:
+      "An incident moves between organisations, and each force has its own legal forms. The product had to support every force without being copied for each one.",
     approach:
-      "Built more than a dozen of them end to end: schema, validation, an interface that stays legible under pressure, and PDF output that matches the official wording.",
+      "Designed the original data model and built the detention and hand-over steps. Later replaced the separate per-force copies of a capacity assessment with one shared version, with tests that fail if a force's form loses a section.",
     outcome:
-      "Forms completed digitally across many organisations, with the rules enforced by the software rather than by whoever happens to check.",
+      "In use by three UK police forces, including one force's national rollout.",
   },
   {
     layer: "service",
-    title: "A new product from its first months",
+    title: "Who pays a doctor's fee",
     problem:
-      "A public service needed its own workflow, built alongside an established product rather than bolted onto it.",
+      "Doctors who carry out Mental Health Act assessments bill a council or an NHS board. When the patient lives outside the area that arranged the assessment, the payer can change.",
+    hardPart:
+      "Boards set different policies, the patient's home area is sometimes unknown, and a failed lookup must never stop a doctor being paid.",
     approach:
-      "One of two core engineers from the start: the data model, the triage and hand-over flows, and sharing records safely with partner organisations.",
+      "Designed the rules that decide who pays, stored that decision on each claim so pricing and references follow from it, added a fallback for lookups that fail, and built an export in the finance team's own format.",
     outcome:
-      "A product in daily use by several large organisations, sharing one codebase and one design system with the rest of the platform.",
+      "Claims are billed to the right body automatically, and each board's policy is managed from an admin screen rather than by hand.",
   },
   {
     layer: "service",
-    title: "Access control you can explain",
+    title: "Access to children's records",
     problem:
-      "A product holding sensitive records about children, where getting permissions wrong is a safeguarding failure, not a bug.",
+      "A children's safeguarding product, where the wrong person seeing a record is a safeguarding failure rather than a bug.",
+    hardPart:
+      "Access flows through networks of organisations — councils, regional groups, the Department for Education — and has to disappear the moment a duty of care ends.",
     approach:
-      "Designed the access-control and membership model as a series of written decision records, then implemented it on the server with tests that name each rule.",
+      "Designed the access model, agreed each decision with the team in writing, and enforced it on the server with a test for each rule. Administrators are warned before removing someone still responsible for a child.",
     outcome:
-      "A permission model the whole team can reason about, with every decision and its trade-offs on record.",
+      "Every access rule traces back to a written decision the whole team agreed.",
   },
   {
     layer: "shipping",
-    title: "AI agents with guardrails",
+    title: "AI agents under the same review",
     problem:
-      "Coding agents write plausible code quickly, and plausible is the dangerous kind in a regulated codebase.",
+      "Coding agents write plausible code quickly. In a codebase with legal consequences, plausible is not enough.",
+    hardPart:
+      "Getting agent-written changes to follow the codebase's own conventions, without slowing the team down.",
     approach:
-      "Helped shape a team practice: rules and skills that encode the codebase's conventions, and review and quality gates every agent change has to pass.",
-    outcome:
-      "Agents used daily for real work, with the same standards applied to their output as to anyone else's.",
+      "Wrote rules that teach agents the codebase's conventions, and kept every agent change behind the same review and tests as anyone else's.",
+    outcome: "Agents used daily on production work, held to the same standard.",
   },
 ];
 
@@ -283,9 +278,7 @@ export const releaseLog: ReleaseEntry[] = [
     role: "Software engineer",
     companyType: "Healthcare technology",
     notes: [
-      "Regulated software for public services: statutory forms, audit trails, PDFs that must match the law.",
-      "A new product built from its first months, and access control for a safeguarding product.",
-      "Code review and mentoring at scale; AI-assisted engineering with guardrails.",
+      "Mental Health Act software for NHS trusts and police forces, and access control for children's safeguarding. See Selected work.",
     ],
   },
   {
@@ -293,33 +286,29 @@ export const releaseLog: ReleaseEntry[] = [
     role: "Full stack engineer",
     companyType: "Brand and digital agency",
     notes: [
-      "Sales tools, microsites and an accessible financial website for well-known brands.",
-      "React, Node, PHP and AWS, working directly with designers.",
+      "A sales tool for a payments company, an accessible investment website and campaign microsites.",
     ],
   },
   {
     version: "v2",
     role: "Full stack developer",
-    companyType: "Healthcare advertising agency",
+    companyType: "Healthcare agency",
     notes: [
-      "Touchscreen apps and multisite CMS platforms with custom modules.",
-      "First people to mentor.",
+      "Touchscreen apps and a multisite CMS platform for pharmaceutical brands.",
     ],
   },
   {
     version: "v1.1",
     role: "Software developer",
-    companyType: "Online travel retailer",
-    notes: [
-      "APIs, search and the servers they ran on, for a high-traffic storefront.",
-    ],
+    companyType: "Online ticket retailer",
+    notes: ["Features, APIs and search for a high-traffic booking site."],
   },
   {
     version: "v1.0",
     role: "Support developer",
-    companyType: "Online travel retailer",
+    companyType: "Online ticket retailer",
     notes: [
-      "Learned production by fixing it: live booking issues, reported by colleagues who needed them fixed now.",
+      "Fixed live problems on the booking site for colleagues who needed them fixed now.",
     ],
   },
 ];

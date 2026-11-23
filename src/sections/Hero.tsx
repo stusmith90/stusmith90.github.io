@@ -14,7 +14,9 @@ export function Hero() {
           <span className="hero-dot" aria-hidden="true" />
           Stuart Ingersoll-Smith
         </h1>
-        <p className="hero-role">Software engineer</p>
+        <p className="hero-role">
+          Senior full-stack engineer · TypeScript, React, Node.js, PostgreSQL
+        </p>
       </div>
 
       <div className="hero-anchors">
@@ -37,33 +39,33 @@ export function Hero() {
         style={{ ["--enter-delay" as string]: "520ms" }}
       >
         <p className="hero-lede">
-          {yearsWordCapitalised} years building software where getting it wrong
-          has real consequences — regulated healthcare, high-traffic commerce,
-          agency delivery. I work across all three layers, because the seams
-          between them are where things break.
+          {yearsWordCapitalised} years building web products. Most recently,
+          Mental Health Act software used by NHS trusts and UK police forces,
+          and access control for a children's safeguarding product, where a
+          mistake has legal consequences.
         </p>
 
         <div className="hero-actions">
-          <a href="#trace" className="button button-primary">
-            Trace a request
+          <a href="#work" className="button button-primary">
+            See selected work
           </a>
           <a href={cvRequestHref} className="button button-quiet">
             Request the CV
           </a>
           <button
             type="button"
-            className="button button-quiet button-kbd"
+            className="link-kbd"
             onClick={openCommandPalette}
             aria-keyshortcuts="Meta+K Control+K"
           >
-            Skip to the essentials <kbd>⌘K</kbd>
+            Jump to a section <kbd>⌘K</kbd>
           </button>
         </div>
 
         <p className="hero-meta">
-          UK based
+          London
           <span aria-hidden="true">·</span>
-          React, TypeScript, Node, PHP, AWS
+          Full-stack TypeScript
           <span aria-hidden="true">·</span>
           MSc Software Engineering
         </p>

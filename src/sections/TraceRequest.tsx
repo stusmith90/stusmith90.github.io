@@ -1,29 +1,25 @@
 import { useEffect, useReducer } from "react";
 
 import { traceActions } from "../content";
-import {
-  focusedLayer,
-  isLayerReached,
-  traceLayers,
-  traceReducer,
-} from "../trace/traceMachine";
+import { restingTrace, traceLayers, traceReducer } from "../trace/traceMachine";
 import { Reveal } from "./Reveal";
 
-/** Long enough to read the layer name as the request passes it, short enough not to feel like a loading screen. */
-const stepDurationMs = 950;
+/** Long enough to see the request arrive at a layer, short enough not to feel like a loading screen. */
+const stepDurationMs = 700;
 
 type TraceRequestProps = {
   prefersReducedMotion: boolean;
 };
 
 export function TraceRequest({ prefersReducedMotion }: TraceRequestProps) {
-  const [state, dispatch] = useReducer(traceReducer, {
-    kind: "idle",
-    actionId: traceActions[0].id,
-  });
+  const [state, dispatch] = useReducer(
+    traceReducer,
+    traceActions[0].id,
+    restingTrace,
+  );
 
   useEffect(() => {
-    if (state.kind !== "running") {
+    if (!state.isRunning) {
       return;
     }
 
@@ -38,8 +34,6 @@ export function TraceRequest({ prefersReducedMotion }: TraceRequestProps) {
   const action =
     traceActions.find((candidate) => candidate.id === state.actionId) ??
     traceActions[0];
-  const focused = focusedLayer(state);
-  const focusedName = focused === null ? null : traceLayers[focused];
 
   const startTrace = (actionId: string) => {
     dispatch({ type: "start", actionId });
@@ -53,10 +47,10 @@ export function TraceRequest({ prefersReducedMotion }: TraceRequestProps) {
     <section className="section section-trace" id="trace">
       <Reveal as="div" className="section-heading">
         <p className="eyebrow">Trace a request</p>
-        <h2>Pick something a person does. Follow it down the stack.</h2>
+        <h2>One action, followed through the whole stack.</h2>
         <p className="section-lede">
-          Every action crosses all three layers. These are the decisions waiting
-          at each one, taken from systems I have built.
+          Pick something a person does. Each layer shows the decision waiting
+          there, taken from systems I have built.
         </p>
       </Reveal>
 
@@ -67,8 +61,7 @@ export function TraceRequest({ prefersReducedMotion }: TraceRequestProps) {
           aria-label="Actions to trace"
         >
           {traceActions.map((candidate) => {
-            const isCurrent =
-              state.kind !== "idle" && candidate.id === state.actionId;
+            const isCurrent = candidate.id === state.actionId;
 
             return (
               <button
@@ -87,57 +80,23 @@ export function TraceRequest({ prefersReducedMotion }: TraceRequestProps) {
           })}
         </div>
 
-        <div
-          className="trace-stack"
-          data-state={state.kind}
-          style={{ ["--packet-index" as string]: focused ?? -1 }}
-        >
-          <span className="trace-wire" aria-hidden="true">
-            <span className="trace-packet" />
-          </span>
-
-          <ol className="trace-layers" aria-label="Layers of the stack">
-            {traceLayers.map((layer, index) => {
-              const reached = isLayerReached(state, index);
-              const isFocused = focused === index;
-
-              return (
-                <li key={layer}>
-                  <button
-                    type="button"
-                    className={`trace-layer ${reached ? "is-reached" : ""} ${isFocused ? "is-focused" : ""}`}
-                    disabled={!reached}
-                    aria-current={isFocused ? "step" : undefined}
-                    onClick={() =>
-                      dispatch({ type: "select", layerIndex: index })
-                    }
-                  >
-                    <span className="trace-layer-index" aria-hidden="true">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <span className="trace-layer-name">{layer}</span>
-                  </button>
-                </li>
-              );
-            })}
+        <div className="trace-stack">
+          <ol className="trace-layers" aria-live="polite">
+            {traceLayers.map((layer, index) => (
+              <li
+                key={layer}
+                className={`trace-layer ${index <= state.reached ? "is-reached" : ""} ${state.isRunning && index === state.reached ? "is-current" : ""}`}
+              >
+                <p className="trace-layer-head">
+                  <span className="trace-layer-index" aria-hidden="true">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span className="trace-layer-name">{layer}</span>
+                </p>
+                <p className="trace-layer-story">{action.stories[layer]}</p>
+              </li>
+            ))}
           </ol>
-
-          <div className="trace-story" aria-live="polite">
-            {focusedName === null ? (
-              <p className="trace-story-hint">
-                Choose an action to send it through the stack.
-              </p>
-            ) : (
-              <>
-                <p className="trace-story-layer">
-                  {action.label} · {focusedName}
-                </p>
-                <p className="trace-story-text">
-                  {action.stories[focusedName]}
-                </p>
-              </>
-            )}
-          </div>
         </div>
       </div>
     </section>

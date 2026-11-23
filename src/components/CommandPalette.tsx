@@ -65,6 +65,15 @@ export function CommandPalette() {
         },
       },
       {
+        id: "copy-email",
+        label: "Copy email address",
+        hint: "Email",
+        run: () => {
+          // Clipboard access can be refused; the email command below is the fallback.
+          void navigator.clipboard?.writeText(contactEmail).catch(() => {});
+        },
+      },
+      {
         id: "email",
         label: `Email ${contactEmail}`,
         hint: "Email",
@@ -198,7 +207,7 @@ export function CommandPalette() {
                 aria-selected={isActive}
                 className={`palette-option ${isActive ? "is-active" : ""}`}
                 onClick={() => runCommand(command)}
-                onMouseEnter={() => setActiveIndex(visible.indexOf(command))}
+                onMouseMove={() => setActiveIndex(visible.indexOf(command))}
               >
                 <span>{command.label}</span>
                 <span className="palette-hint">{command.hint}</span>

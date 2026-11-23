@@ -1,5 +1,4 @@
 import {
-  companyTypes,
   cvRequestHref,
   experienceLayers,
   yearsWordCapitalised,
@@ -11,9 +10,7 @@ export function Experience() {
     <section className="section section-ink" id="layers">
       <Reveal as="div" className="section-heading">
         <p className="eyebrow">Experience</p>
-        <h2>
-          {yearsWordCapitalised} years across three layers of the same problem.
-        </h2>
+        <h2>{yearsWordCapitalised} years across the whole stack.</h2>
         <p className="section-lede">
           Organised by layer rather than by employer, because that is how the
           work divides. Names and dates are on the CV, which is{" "}
@@ -22,15 +19,6 @@ export function Experience() {
           </a>
           .
         </p>
-      </Reveal>
-
-      <Reveal as="div" className="exp-companies" delay={80}>
-        <p className="exp-companies-label">Kinds of company</p>
-        <ul>
-          {companyTypes.map((company) => (
-            <li key={company}>{company}</li>
-          ))}
-        </ul>
       </Reveal>
 
       <div className="exp-layers">
