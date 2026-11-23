@@ -39,10 +39,10 @@ export function Hero() {
         style={{ ["--enter-delay" as string]: "520ms" }}
       >
         <p className="hero-lede">
-          {yearsWordCapitalised} years building web products. Most recently,
-          Mental Health Act software used by NHS trusts and UK police forces,
-          and access control for a children's safeguarding product, where a
-          mistake has legal consequences.
+          {yearsWordCapitalised} years building software where getting the
+          details wrong is expensive: money moving between organisations, who
+          can see what, and records with legal weight. Most recently, healthcare
+          software used by NHS trusts and UK police forces.
         </p>
 
         <div className="hero-actions">

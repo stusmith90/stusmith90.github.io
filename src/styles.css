@@ -1017,6 +1017,11 @@ main:focus {
   letter-spacing: -0.025em;
 }
 
+.work-context {
+  font-style: italic;
+  color: var(--muted);
+}
+
 .work-detail {
   display: grid;
   gap: 0.25rem;

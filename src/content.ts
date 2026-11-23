@@ -133,8 +133,8 @@ export const experienceLayers: ExperienceLayer[] = [
 ];
 
 export const aboutParagraphs = [
-  "Most recently I have built Mental Health Act software for NHS trusts and police forces, and access control for a children's safeguarding product. Before that, agency work for well-known brands and a high-traffic ticketing site.",
-  "In that kind of work a mistake is a legal or safeguarding problem, not just a bug. So I care whether the data model matches the domain, whether each rule lives in one place with a test on it, and whether a release is safe to ship on any day of the week.",
+  "I have spent ten years across healthcare, agency work for financial services and consumer brands, and high-traffic e-commerce. Most recently I have built healthcare software used by NHS trusts and UK police forces.",
+  "The work I enjoy most is where a mistake is expensive: money billed to the wrong organisation, the wrong person seeing a record, a legal document that does not hold up. So I care whether the data model matches the domain, whether each rule lives in one place with a test on it, and whether a release is safe to ship on any day of the week.",
   "I use AI coding tools every day, with the same review and tests as any other change.",
 ];
 
@@ -164,20 +164,20 @@ export type TraceAction = {
 
 export const traceActions: TraceAction[] = [
   {
-    id: "submit-form",
-    label: "Sign a Mental Health Act form",
+    id: "pay-claim",
+    label: "Pay a claim",
     stories: {
       interface:
-        "A long form validated field by field against a schema the server shares, so the browser and the API can never disagree about what complete means.",
+        "The price and payment reference are worked out by the server rather than typed in, so they cannot be entered wrong.",
       service:
-        "The server checks the rules the law sets — who may sign, in what order, within which time limit — and records every change in an audit log.",
+        "The server decides which organisation pays from their own policies, stores that decision on the claim, and falls back safely when a detail is missing, so a valid claim is never blocked.",
       shipping:
-        "The form becomes a PDF that must match the official wording, so its layout is compared against approved copies before any release.",
+        "The finance export follows the finance team's own template column for column, because a wrong column is a wrong payment.",
     },
   },
   {
     id: "hand-over",
-    label: "Hand a patient over to NHS staff",
+    label: "Hand a case to another organisation",
     stories: {
       interface:
         "The hand-over screen spells out the consequence before anyone confirms it: who becomes responsible, and who can see the record afterwards.",
@@ -189,12 +189,12 @@ export const traceActions: TraceAction[] = [
   },
   {
     id: "grant-access",
-    label: "Give someone access to a child's record",
+    label: "Give someone access",
     stories: {
       interface:
         "What a person can do is shown as a clear state rather than a missing button, so nobody has to guess why an action is unavailable.",
       service:
-        "Every check runs on the server against one access model. Access ends when the duty of care that granted it ends.",
+        "Every check runs on the server against one access model, and access ends when the relationship that granted it ends.",
       shipping:
         "Each access rule has a test named after it, so widening access is always a reviewed decision rather than a side effect.",
     },
@@ -204,6 +204,8 @@ export const traceActions: TraceAction[] = [
 export type CaseStudy = {
   layer: StackLayer;
   title: string;
+  /** Where the work happened, in one line: the industry is evidence, not the headline. */
+  context: string;
   problem: string;
   hardPart: string;
   approach: string;
@@ -214,50 +216,55 @@ export type CaseStudy = {
 export const caseStudies: CaseStudy[] = [
   {
     layer: "service",
-    title: "A police app, from its first months",
+    title: "Routing payments between organisations",
+    context: "Doctors' assessment fees, billed to councils and NHS boards.",
     problem:
-      "Police officers needed to record mental health detentions and hand people over to NHS staff, inside a platform built for NHS trusts.",
+      "Each claim has to be billed to the right organisation, and when the person assessed lives outside the area that arranged the work, the payer can change.",
     hardPart:
-      "An incident moves between organisations, and each force has its own legal forms. The product had to support every force without being copied for each one.",
-    approach:
-      "Designed the original data model and built the detention and hand-over steps. Later replaced the separate per-force copies of a capacity assessment with one shared version, with tests that fail if a force's form loses a section.",
-    outcome:
-      "In use by three UK police forces, including one force's national rollout.",
-  },
-  {
-    layer: "service",
-    title: "Who pays a doctor's fee",
-    problem:
-      "Doctors who carry out Mental Health Act assessments bill a council or an NHS board. When the patient lives outside the area that arranged the assessment, the payer can change.",
-    hardPart:
-      "Boards set different policies, the patient's home area is sometimes unknown, and a failed lookup must never stop a doctor being paid.",
+      "Each organisation sets its own policy, some details are sometimes unknown, and a failed lookup must never stop someone being paid.",
     approach:
       "Designed the rules that decide who pays, stored that decision on each claim so pricing and references follow from it, added a fallback for lookups that fail, and built an export in the finance team's own format.",
     outcome:
-      "Claims are billed to the right body automatically, and each board's policy is managed from an admin screen rather than by hand.",
+      "Claims are billed to the right organisation automatically, and each organisation's policy is managed from an admin screen rather than by hand.",
   },
   {
     layer: "service",
-    title: "Access to children's records",
+    title: "Access that follows a relationship",
+    context:
+      "Children's records shared across councils, regional groups and a national department.",
     problem:
-      "A children's safeguarding product, where the wrong person seeing a record is a safeguarding failure rather than a bug.",
+      "Who may see a record depends on a relationship that changes over time, and the wrong person seeing it is a serious failure rather than a bug.",
     hardPart:
-      "Access flows through networks of organisations — councils, regional groups, the Department for Education — and has to disappear the moment a duty of care ends.",
+      "Access flows through networks of organisations and has to disappear the moment the relationship that granted it ends.",
     approach:
-      "Designed the access model, agreed each decision with the team in writing, and enforced it on the server with a test for each rule. Administrators are warned before removing someone still responsible for a child.",
+      "Designed the access model, agreed each decision with the team in writing, and enforced it on the server with a test for each rule. Administrators are warned before removing someone who is still responsible for a record.",
     outcome:
       "Every access rule traces back to a written decision the whole team agreed.",
   },
   {
+    layer: "service",
+    title: "One product, each client's own rules",
+    context: "A new app used by three UK police forces.",
+    problem:
+      "Each client works to its own legal forms and processes, but they all need the same product, kept up to date together.",
+    hardPart:
+      "Supporting every client's differences without copying the product for each one, so a change made once reaches everyone.",
+    approach:
+      "One of the first engineers: designed the original data model and built the core workflow. Later replaced the separate per-client copies of a legal assessment with one shared version, with tests that fail if any client's form loses a section.",
+    outcome:
+      "In use by three clients, including one client's national rollout.",
+  },
+  {
     layer: "shipping",
     title: "AI agents under the same review",
+    context: "A production codebase in a regulated industry.",
     problem:
-      "Coding agents write plausible code quickly. In a codebase with legal consequences, plausible is not enough.",
+      "Coding agents write plausible code quickly, and where mistakes have legal consequences, plausible is not enough.",
     hardPart:
       "Getting agent-written changes to follow the codebase's own conventions, without slowing the team down.",
     approach:
       "Wrote rules that teach agents the codebase's conventions, and kept every agent change behind the same review and tests as anyone else's.",
-    outcome: "Agents used daily on production work, held to the same standard.",
+    outcome: "Agents used on production work, held to the same standard.",
   },
 ];
 
@@ -278,7 +285,7 @@ export const releaseLog: ReleaseEntry[] = [
     role: "Software engineer",
     companyType: "Healthcare technology",
     notes: [
-      "Mental Health Act software for NHS trusts and police forces, and access control for children's safeguarding. See Selected work.",
+      "Healthcare software for NHS trusts and UK police forces: payments between organisations, access control and legal records. See Selected work.",
     ],
   },
   {
@@ -286,7 +293,7 @@ export const releaseLog: ReleaseEntry[] = [
     role: "Full stack engineer",
     companyType: "Brand and digital agency",
     notes: [
-      "A sales tool for a payments company, an accessible investment website and campaign microsites.",
+      "A sales tool for a payments company, an accessible website for an investment platform, and campaign microsites.",
     ],
   },
   {

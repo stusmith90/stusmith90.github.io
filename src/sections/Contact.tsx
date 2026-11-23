@@ -37,8 +37,8 @@ export function Contact() {
         <p className="eyebrow">Contact</p>
         <h2>Hiring for a senior full-stack role? Email me for the CV.</h2>
         <p className="section-lede">
-          Especially in healthcare and other products where the details have
-          consequences, and in teams that care how software is built.
+          In any industry, particularly where the details have consequences and
+          the team cares how software is built.
         </p>
 
         <div className="contact-email">
