@@ -3,8 +3,8 @@ import "@fontsource/newsreader/500.css";
 import "@fontsource/space-grotesk/400.css";
 import "@fontsource/space-grotesk/500.css";
 import "@fontsource/space-grotesk/700.css";
-import React from "react";
-import ReactDOM from "react-dom/client";
+import { StrictMode } from "react";
+import { createRoot, hydrateRoot } from "react-dom/client";
 
 import App from "./App";
 import "./styles.css";
@@ -15,8 +15,15 @@ if (!rootElement) {
   throw new Error("Missing #root element in index.html");
 }
 
-ReactDOM.createRoot(rootElement).render(
-  <React.StrictMode>
+const app = (
+  <StrictMode>
     <App />
-  </React.StrictMode>,
+  </StrictMode>
 );
+
+// The production build pre-renders the page into #root; the dev server does not.
+if (rootElement.hasChildNodes()) {
+  hydrateRoot(rootElement, app);
+} else {
+  createRoot(rootElement).render(app);
+}

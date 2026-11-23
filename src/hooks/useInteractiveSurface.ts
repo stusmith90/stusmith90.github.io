@@ -1,48 +1,33 @@
-import { useSpring } from "@react-spring/web";
-import { useEffect, type PointerEvent as ReactPointerEvent } from "react";
+import { type PointerEvent as ReactPointerEvent } from "react";
 
+/**
+ * Tilts a surface towards the pointer by writing CSS custom properties; the
+ * easing lives in the stylesheet, so React never re-renders on pointer movement.
+ */
 export function useInteractiveSurface(prefersReducedMotion: boolean) {
-  const [surfaceSpring, surfaceApi] = useSpring(() => ({
-    rotateX: 0,
-    rotateY: 0,
-    x: 0,
-    y: 0,
-    config: { tension: 210, friction: 24 },
-  }));
-
-  useEffect(() => {
-    if (!prefersReducedMotion) {
-      return;
-    }
-
-    surfaceApi.start({ rotateX: 0, rotateY: 0, x: 0, y: 0, immediate: true });
-  }, [prefersReducedMotion, surfaceApi]);
-
   const handlePointerMove = (event: ReactPointerEvent<HTMLElement>) => {
-    if (prefersReducedMotion || event.pointerType === "touch") {
+    if (event.pointerType === "touch") {
       return;
     }
 
-    const bounds = event.currentTarget.getBoundingClientRect();
+    const element = event.currentTarget;
+    const bounds = element.getBoundingClientRect();
     const xRatio = (event.clientX - bounds.left) / bounds.width - 0.5;
     const yRatio = (event.clientY - bounds.top) / bounds.height - 0.5;
 
-    surfaceApi.start({
-      rotateX: yRatio * -6,
-      rotateY: xRatio * 8,
-      x: xRatio * 12,
-      y: yRatio * 10,
-    });
+    element.style.setProperty("--tilt-x", `${(yRatio * -6).toFixed(2)}deg`);
+    element.style.setProperty("--tilt-y", `${(xRatio * 8).toFixed(2)}deg`);
+    element.style.setProperty("--shift-x", `${(xRatio * 12).toFixed(1)}px`);
+    element.style.setProperty("--shift-y", `${(yRatio * 10).toFixed(1)}px`);
   };
 
-  const resetSurface = () => {
-    surfaceApi.start({ rotateX: 0, rotateY: 0, x: 0, y: 0 });
+  const resetSurface = (event: ReactPointerEvent<HTMLElement>) => {
+    for (const property of ["--tilt-x", "--tilt-y", "--shift-x", "--shift-y"]) {
+      event.currentTarget.style.removeProperty(property);
+    }
   };
 
-  return {
-    surfaceSpring,
-    interactiveProps: prefersReducedMotion
-      ? {}
-      : { onPointerMove: handlePointerMove, onPointerLeave: resetSurface },
-  };
+  return prefersReducedMotion
+    ? {}
+    : { onPointerMove: handlePointerMove, onPointerLeave: resetSurface };
 }

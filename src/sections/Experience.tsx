@@ -1,5 +1,6 @@
 import {
   companyTypes,
+  cvRequestHref,
   experienceLayers,
   yearsWordCapitalised,
 } from "../content";
@@ -7,7 +8,7 @@ import { Reveal } from "./Reveal";
 
 export function Experience() {
   return (
-    <section className="section section-ink" id="work">
+    <section className="section section-ink" id="layers">
       <Reveal as="div" className="section-heading">
         <p className="eyebrow">Experience</p>
         <h2>
@@ -15,7 +16,11 @@ export function Experience() {
         </h2>
         <p className="section-lede">
           Organised by layer rather than by employer, because that is how the
-          work divides. Names and dates are on the CV.
+          work divides. Names and dates are on the CV, which is{" "}
+          <a className="inline-link" href={cvRequestHref}>
+            available on request
+          </a>
+          .
         </p>
       </Reveal>
 
@@ -44,10 +49,7 @@ export function Experience() {
               <h3 className="exp-word">{entry.layer}</h3>
               <p className="exp-kicker">{entry.kicker}</p>
               <p className="exp-detail">{entry.detail}</p>
-              <ul
-                className="exp-stack"
-                aria-label={`${entry.layer} technologies`}
-              >
+              <ul className="exp-stack">
                 {entry.stack.map((item) => (
                   <li key={item}>{item}</li>
                 ))}

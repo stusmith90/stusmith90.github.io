@@ -2,23 +2,42 @@
 <html lang="en-GB">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Marks scripting as available before first paint, so scroll reveals only
+         hide content when the script that releases them can run. -->
+    <script>
+      document.documentElement.classList.add("js");
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="canonical" href="https://stusmith90.github.io/" />
     <meta name="robots" content="noindex, nofollow" />
     <meta
       name="description"
-      content="Software engineer. Interface, service, shipping. React, TypeScript, Node, PHP, AWS."
+      content="Software engineer working across interface, service and shipping. React, TypeScript, Node, PHP, AWS."
     />
     <meta name="theme-color" content="#fbf6ee" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://stusmith90.github.io/" />
     <meta
       property="og:title"
       content="Stuart Ingersoll-Smith | Software Engineer"
     />
     <meta
       property="og:description"
-      content="Eight years building software where the failure modes are real. Interface, service, shipping."
+      content="Building software where the failure modes are real. Interface, service, shipping."
     />
-    <meta property="og:type" content="website" />
+    <meta
+      property="og:image"
+      content="https://stusmith90.github.io/og-image.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Stuart Ingersoll-Smith, software engineer: interface, service, shipping."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
     <title>Stuart Ingersoll-Smith | Software Engineer</title>
   </head>
   <body>

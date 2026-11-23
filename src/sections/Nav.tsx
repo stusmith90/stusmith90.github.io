@@ -10,16 +10,18 @@ export function Nav({ activeSection }: NavProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 1024) {
+    // Matches the stylesheet's breakpoint where the desktop rail replaces this menu.
+    const desktop = window.matchMedia("(min-width: 1025px)");
+    const closeOnDesktop = () => {
+      if (desktop.matches) {
         setIsMobileMenuOpen(false);
       }
     };
 
-    window.addEventListener("resize", handleResize);
+    desktop.addEventListener("change", closeOnDesktop);
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      desktop.removeEventListener("change", closeOnDesktop);
     };
   }, []);
 
@@ -97,6 +99,7 @@ export function Nav({ activeSection }: NavProps) {
         <div
           id="mobile-nav-track"
           className={`mobile-nav-track ${isMobileMenuOpen ? "is-open" : ""}`}
+          inert={!isMobileMenuOpen}
         >
           {sectionLinks.map((section) => (
             <a

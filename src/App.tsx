@@ -1,12 +1,16 @@
+import { CommandPalette } from "./components/CommandPalette";
 import { stackRibbon } from "./content";
 import { useAmbientPointer } from "./hooks/useAmbientPointer";
 import { usePageProgress } from "./hooks/usePageProgress";
 import { usePrefersReducedMotion } from "./hooks/usePrefersReducedMotion";
 import { About } from "./sections/About";
 import { Contact } from "./sections/Contact";
+import { Experience } from "./sections/Experience";
 import { Hero } from "./sections/Hero";
 import { Nav } from "./sections/Nav";
-import { Experience } from "./sections/Experience";
+import { Timeline } from "./sections/Timeline";
+import { TraceRequest } from "./sections/TraceRequest";
+import { Work } from "./sections/Work";
 
 function App() {
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -14,37 +18,46 @@ function App() {
 
   useAmbientPointer(prefersReducedMotion);
 
-  const ribbonItems = [...stackRibbon, ...stackRibbon];
-
   return (
     <div className="page-shell">
       <div className="backdrop-grid" aria-hidden="true" />
       <div className="backdrop-glow" aria-hidden="true" />
 
-      <a className="skip-link" href="#work">
-        Skip to work
+      <a className="skip-link" href="#main">
+        Skip to content
       </a>
 
       <Nav activeSection={activeSection} />
 
-      <div className="page-body">
-        <Hero prefersReducedMotion={prefersReducedMotion} />
+      <main className="page-body" id="main" tabIndex={-1}>
+        <Hero />
 
-        <div className="ribbon" aria-label="Technologies">
+        <div className="ribbon">
+          {/* The track is drawn twice so the scroll-linked drift never shows an
+              empty edge; only the first copy is exposed to assistive technology. */}
           <div className="ribbon-track">
-            {ribbonItems.map((item, index) => (
-              <span key={`${item}-${index}`}>{item}</span>
-            ))}
+            <ul aria-label="Technologies">
+              {stackRibbon.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+            <ul aria-hidden="true">
+              {stackRibbon.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
           </div>
         </div>
 
-        <main>
-          <Experience />
-          <About prefersReducedMotion={prefersReducedMotion} />
-        </main>
-
+        <TraceRequest prefersReducedMotion={prefersReducedMotion} />
+        <Work />
+        <Experience />
+        <Timeline />
+        <About prefersReducedMotion={prefersReducedMotion} />
         <Contact />
-      </div>
+      </main>
+
+      <CommandPalette />
     </div>
   );
 }

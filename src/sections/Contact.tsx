@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-import { contactEmail, githubUrl } from "../content";
+import { contactEmail, cvRequestHref, githubUrl } from "../content";
 import { Reveal } from "./Reveal";
 
 export function Contact() {
@@ -32,7 +32,7 @@ export function Contact() {
   };
 
   return (
-    <footer className="section section-ink section-contact" id="contact">
+    <section className="section section-ink section-contact" id="contact">
       <Reveal as="div" className="contact-inner">
         <p className="eyebrow">Contact</p>
         <h2>
@@ -68,11 +68,12 @@ export function Contact() {
         </p>
 
         <div className="contact-links">
+          <a href={cvRequestHref}>Request the full CV</a>
           <a href={githubUrl} target="_blank" rel="noopener noreferrer">
             github.com/stusmith90
           </a>
         </div>
       </Reveal>
-    </footer>
+    </section>
   );
 }

@@ -1,79 +1,40 @@
-import { animated, config, useSpring, useTrail } from "@react-spring/web";
+import { openCommandPalette } from "../components/CommandPalette";
+import { cvRequestHref, heroAnchors, yearsWordCapitalised } from "../content";
 
-import { heroAnchors, yearsWordCapitalised } from "../content";
-
-type HeroProps = {
-  prefersReducedMotion: boolean;
-};
-
-export function Hero({ prefersReducedMotion }: HeroProps) {
-  const introSpring = useSpring({
-    from: { opacity: 0, y: prefersReducedMotion ? 0 : 18 },
-    to: { opacity: 1, y: 0 },
-    config: config.gentle,
-    immediate: prefersReducedMotion,
-  });
-
-  const anchorTrail = useTrail(heroAnchors.length, {
-    from: { opacity: 0, y: prefersReducedMotion ? 0 : 46 },
-    to: { opacity: 1, y: 0 },
-    delay: prefersReducedMotion ? 0 : 140,
-    config: { tension: 190, friction: 26 },
-    immediate: prefersReducedMotion,
-  });
-
-  const outroSpring = useSpring({
-    from: { opacity: 0, y: prefersReducedMotion ? 0 : 22 },
-    to: { opacity: 1, y: 0 },
-    delay: prefersReducedMotion ? 0 : 520,
-    config: config.gentle,
-    immediate: prefersReducedMotion,
-  });
-
+/**
+ * The entrance is staggered with CSS (`hero-enter` and its delay variable) so it
+ * works from the pre-rendered HTML and is removed wholesale by the
+ * reduced-motion media query.
+ */
+export function Hero() {
   return (
-    <header className="hero" id="top">
-      <animated.div
-        className="hero-intro"
-        style={{
-          opacity: introSpring.opacity,
-          transform: introSpring.y.to((y) => `translate3d(0, ${y}px, 0)`),
-        }}
-      >
-        <p className="hero-name">
+    <section className="hero" id="top" aria-labelledby="hero-name">
+      <div className="hero-intro hero-enter">
+        <h1 className="hero-name" id="hero-name">
           <span className="hero-dot" aria-hidden="true" />
           Stuart Ingersoll-Smith
-        </p>
+        </h1>
         <p className="hero-role">Software engineer</p>
-      </animated.div>
+      </div>
 
       <div className="hero-anchors">
         <span className="hero-seam" aria-hidden="true" />
-        {anchorTrail.map((style, index) => {
-          const anchor = heroAnchors[index];
-
-          return (
-            <animated.p
-              key={anchor.layer}
-              className="hero-anchor"
-              style={{
-                opacity: style.opacity,
-                transform: style.y.to((y) => `translate3d(0, ${y}px, 0)`),
-              }}
-            >
-              <span className="hero-anchor-tick" aria-hidden="true" />
-              <span className="hero-anchor-word">{anchor.word}</span>
-              <span className="hero-anchor-note">{anchor.note}</span>
-            </animated.p>
-          );
-        })}
+        {heroAnchors.map((anchor, index) => (
+          <p
+            key={anchor.layer}
+            className="hero-anchor hero-enter"
+            style={{ ["--enter-delay" as string]: `${140 + index * 90}ms` }}
+          >
+            <span className="hero-anchor-tick" aria-hidden="true" />
+            <span className="hero-anchor-word">{anchor.word}</span>
+            <span className="hero-anchor-note">{anchor.note}</span>
+          </p>
+        ))}
       </div>
 
-      <animated.div
-        className="hero-outro"
-        style={{
-          opacity: outroSpring.opacity,
-          transform: outroSpring.y.to((y) => `translate3d(0, ${y}px, 0)`),
-        }}
+      <div
+        className="hero-outro hero-enter"
+        style={{ ["--enter-delay" as string]: "520ms" }}
       >
         <p className="hero-lede">
           {yearsWordCapitalised} years building software where getting it wrong
@@ -83,12 +44,20 @@ export function Hero({ prefersReducedMotion }: HeroProps) {
         </p>
 
         <div className="hero-actions">
-          <a href="#work" className="button button-primary">
-            See the work
+          <a href="#trace" className="button button-primary">
+            Trace a request
           </a>
-          <a href="#contact" className="button button-quiet">
-            Get in touch
+          <a href={cvRequestHref} className="button button-quiet">
+            Request the CV
           </a>
+          <button
+            type="button"
+            className="button button-quiet button-kbd"
+            onClick={openCommandPalette}
+            aria-keyshortcuts="Meta+K Control+K"
+          >
+            Skip to the essentials <kbd>⌘K</kbd>
+          </button>
         </div>
 
         <p className="hero-meta">
@@ -98,7 +67,7 @@ export function Hero({ prefersReducedMotion }: HeroProps) {
           <span aria-hidden="true">·</span>
           MSc Software Engineering
         </p>
-      </animated.div>
-    </header>
+      </div>
+    </section>
   );
 }
