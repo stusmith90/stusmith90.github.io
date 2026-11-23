@@ -25,7 +25,7 @@ export type SectionLink = {
  * from this single constant, so the prose never needs editing and the figures
  * can never disagree with each other. Move this date to change the count.
  */
-const careerStart = { year: 2018, month: 8 };
+const careerStart = { year: 2017, month: 8 };
 
 const numberWords = [
   "zero",
